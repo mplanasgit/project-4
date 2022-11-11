@@ -16,15 +16,22 @@ def readme ():
     readme_file = open("../README.md", "r")
     return markdown.markdown(readme_file.read(), extensions = ["fenced_code"])
 
-@app.route("/sql/<name>")
+@app.route("/sentences/<name>")
 def lines_from_character (name):
     return jsonify(sql.get_everything_from_character(name))
 
 @app.route("/sa/<name>")
 def sa_from_character (name):
-    everything = sql.get_sentence(name)
-    return jsonify(everything)
-    #return jsonify([sia.polarity_scores(i["dialogue"])["compound"] for i in everything])
+    everything = sql.get_sentences(name)
+    return jsonify([sia.polarity_scores(i["Sentence"])["compound"] for i in everything])
+
+@app.route("/random/<name>")
+def random_from_character (name):
+    return jsonify(sql.get_random(name))
+
+
+
+
 
 if __name__ == '__main__':
     app.run()
