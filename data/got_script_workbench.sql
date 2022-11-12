@@ -46,10 +46,13 @@ LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/got_script.csv'
 	LINES TERMINATED BY '\r\n'
 	IGNORE 1 ROWS;
 
+ALTER TABLE got_script RENAME COLUMN `index` TO ID;
+ALTER TABLE got_script MODIFY ID INTEGER;
+
 SELECT * FROM got_script;
 
-SELECT Sentence FROM got_script
-	WHERE Name = "Arya Stark";
+SELECT * FROM got_script
+	WHERE Name = "Jon Snow";
 
 SELECT Sentence FROM got_script
 WHERE Name = "Jon Snow"
