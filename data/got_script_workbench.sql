@@ -1,5 +1,6 @@
+CREATE DATABASE IF NOT EXISTS got;
 USE got;
-DROP TABLE got_script;
+DROP TABLE IF EXISTS got_script;
 SET GLOBAL sql_mode='';
 -- MySQL Workbench Forward Engineering
 
@@ -49,13 +50,29 @@ LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/got_script.csv'
 ALTER TABLE got_script RENAME COLUMN `index` TO ID;
 ALTER TABLE got_script MODIFY ID INTEGER;
 
+-- Testing queries
 SELECT * FROM got_script;
-
-SELECT * FROM got_script
-	WHERE Name = "Jon Snow";
 
 SELECT Sentence FROM got_script
 WHERE Name = "Jon Snow"
 ORDER BY RAND()
 LIMIT 1
 ;
+
+CREATE TEMPORARY TABLE top10sentence
+SELECT Name, count('Sentence') FROM got_script
+	GROUP BY Name
+    ORDER BY count('Sentence') DESC
+    LIMIT 10;
+
+SELECT * FROM top10sentence
+GROUP BY Name;
+
+SELECT * FROM got_script
+WHERE Name IN
+	(SELECT Name FROM top10sentence);
+    
+SELECT ID, Season, Episode, `Episode Title`, Name, Sentence FROM got_script
+	WHERE Season = "Season 1"
+		AND Episode = "Episode 1";
+

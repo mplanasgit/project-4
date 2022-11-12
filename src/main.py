@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify
-import random
-import numpy as np
 import markdown.extensions.fenced_code
 import tools.sql_queries as sql
+import tools.check_database as che
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 sia = SentimentIntensityAnalyzer()
 
@@ -21,7 +20,10 @@ def readme ():
 # Returns a random sequence from a character
 @app.route("/random/<name>")
 def random_from_character (name):
-    return jsonify(sql.get_random(name))
+    if che.check_character(name):
+        return jsonify(sql.get_random(name))
+    else:
+        return "The specified character is not valid. Refer to our docs for the names of the characters."
 
 # -------------------------------------------------------------------------------------------------------------
 # Get the entire script of the show (returns the entire table in the database)
@@ -33,25 +35,46 @@ def get_show_script():
 # Get the script of the entire show for a specified character
 @app.route("/script/character/<name>")
 def script_from_character (name):
-    return jsonify(sql.get_script_from_character(name))
+    if che.check_character(name):
+        return jsonify(sql.get_script_from_character(name))
+    else:
+        return "The specified character is not valid. Refer to our docs for the names of the characters."
 
 # -------------------------------------------------------------------------------------------------------------
 # Get the script of an entire season
 @app.route("/script/<season>")
 def season_script (season):
-    return jsonify(sql.get_script_from_season(season))
+    if che.check_season(season):
+        return jsonify(sql.get_script_from_season(season))
+    else:
+        return "The specified season is not valid. Please specify the season in the following format: season N , where N is a number from 1 to 8."
 
 # -------------------------------------------------------------------------------------------------------------
 # Get the script of an episode of a given season
 @app.route("/script/<season>/<episode>")
 def episode_script (season, episode):
-    return jsonify(sql.get_script_from_episode(season, episode))
+    if che.check_season(season):
+        if che.check_episode(season, episode):
+            return jsonify(sql.get_script_from_episode(season, episode))
+        else:
+            return "The specified episode is not valid. Please specify the episode in the following format: episode N , where N is a number from 1 to 10 for Seasons 1 to 6. Season 7 consists of 7 episodes, and Season 8 consists of 6 episodes."
+    else:
+        return "The specified season is not valid. Please specify the season in the following format: season N , where N is a number from 1 to 8."
 
 # -------------------------------------------------------------------------------------------------------------
 # Get the script of a character for a given episode of a season
 @app.route("/script/<season>/<episode>/<name>")
 def character_script_by_episode (season, episode, name):
-    return jsonify(sql.get_character_script_from_episode(season, episode, name))
+    if che.check_season(season):
+        if che.check_episode(season, episode):
+            if che.check_character(name):
+                return jsonify(sql.get_character_script_from_episode(season, episode, name))
+            else:
+                return "The specified character is not valid. Refer to our docs for the names of the characters."
+        else:
+            return "The specified episode is not valid. Please specify the episode in the following format: episode N , where N is a number from 1 to 10 for Seasons 1 to 6. Season 7 consists of 7 episodes, and Season 8 consists of 6 episodes."
+    else:
+        return "The specified season is not valid. Please specify the season in the following format: season N , where N is a number from 1 to 8."
 
 # ----------------------------------------------------------------------------------------------- GET SENTIMENT
 # Get the sentiment analysis (sa) of all the sentences of a character (entire show)
