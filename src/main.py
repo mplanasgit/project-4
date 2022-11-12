@@ -50,6 +50,18 @@ def season_script (season):
         return "The specified season is not valid. Please specify the season in the following format: season N , where N is a number from 1 to 8."
 
 # -------------------------------------------------------------------------------------------------------------
+# Get the script of a character of an entire season
+@app.route("/script/<season>/character/<name>")
+def character_script_by_season (season, name):
+    if che.check_season(season):
+        if che.check_character(name):
+            return jsonify(sql.get_character_script_from_season(season, name))
+        else:
+            return "The specified character is not valid. Refer to our docs for the names of the characters."
+    else:
+        return "The specified season is not valid. Please specify the season in the following format: season N , where N is a number from 1 to 8."
+
+# -------------------------------------------------------------------------------------------------------------
 # Get the script of an episode of a given season
 @app.route("/script/<season>/<episode>")
 def episode_script (season, episode):
@@ -91,6 +103,13 @@ def sa_from_season (season):
     return jsonify([sia.polarity_scores(i["Sentence"])["compound"] for i in sentences])
 
 # -------------------------------------------------------------------------------------------------------------
+# Get the SA of all the sentences of a character of a season
+@app.route("/script/sa/<season>/character/<name>")
+def sa_from_character_by_season (season, name):
+    sentences = sql.get_character_script_from_season(season, name)
+    return jsonify([sia.polarity_scores(i["Sentence"])["compound"] for i in sentences])
+
+# -------------------------------------------------------------------------------------------------------------
 # Get the SA of all the sentences of an episode
 @app.route("/script/sa/<season>/<episode>")
 def sa_from_episode (season, episode):
@@ -104,6 +123,24 @@ def sa_from_character_by_episode (season, episode, name):
     sentences = sql.get_character_script_from_episode(season, episode, name)
     return jsonify([sia.polarity_scores(i["Sentence"])["compound"] for i in sentences])
 
+
+# -------------------------------------------------------------------------------------------------------- POST
+# Request a post
+@app.route("/insertrow", methods=["POST"])
+def insert_row ():
+    # Decoding params
+    my_params = request.args
+    id = my_params["ID"]
+    release_date = my_params["Release Date"]
+    season = my_params["Season"]
+    episode = my_params["Episode"]
+    episode_title = my_params["Episode Title"]
+    name = my_params["Name"]
+    sentence = my_params["Sentence"]
+
+    # Passing to my function: do the insert
+    sql.insert_one_row(id, release_date, season, episode, episode_title, name, sentence)
+    return f"Query succesfully inserted"
 
 
 if __name__ == '__main__':
