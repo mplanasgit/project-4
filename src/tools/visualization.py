@@ -14,7 +14,7 @@ def add_labels_season(title, num_seasons):
 
 def add_labels_episode(title, num_episodes):
     # Adding figure legend and labels
-    plt.ylim(-1, 0.5)
+    plt.ylim(-0.9, 0.6)
     plt.axhline(y = 0.05, color = 'red', linestyle = 'dotted', label = 'Positivity threshold', zorder=0)
     plt.axhline(y = -0.05, color = 'red', linestyle = 'dotted', label = 'Negativity threshold', zorder=0)
     plt.ylabel(ylabel = "Sentiment Compound [-1 to 1]")

@@ -2,6 +2,19 @@ from config.sql_connection import engine
 import pandas as pd
 
 # -------------------------------------------------------------------------------------------------------------
+# Function to get the top N characters by number of sentences in the show
+# Didn't work when asking to input the LIMIT number.
+def get_top ():
+    query = f"""SELECT Name, count('Sentence') as 'Number of sentences' 
+    FROM got_script
+    GROUP BY Name
+    ORDER BY count('Sentence') DESC;"""
+    
+    df = pd.read_sql_query(query, engine)
+
+    return df.to_dict(orient="records")
+
+# -------------------------------------------------------------------------------------------------------------
 # Function that returns a random sentence from the specified character
 
 def get_random (name):

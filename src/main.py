@@ -19,6 +19,12 @@ def readme ():
     readme_file = open("../README.md", "r")
     return markdown.markdown(readme_file.read(), extensions = ["fenced_code"])
 
+# ----------------------------------------------------------------------------------------------------- GET TOP
+# Get the top characters by total number of sentences in the show
+@app.route("/top")
+def get_top_characters ():
+    return jsonify(sql.get_top())
+
 # ------------------------------------------------------------------------------------------------- GET SCRIPTS
 # Returns a random sequence from a character
 @app.route("/random/<name>")
@@ -91,12 +97,23 @@ def character_script_by_episode (season, episode, name):
     else:
         return "The specified season is not valid. Please specify the season in the following format: season N , where N is a number from 1 to 8."
 
+# -------------------------------------------------------------------------------------------------------------
+
 # ----------------------------------------------------------------------------------------------- GET SENTIMENT
 # Get the sentiment analysis (sa) of all the sentences of a character (entire show)
 @app.route("/script/sa/character/<name>")
 def sa_from_character (name):
     sentences = sql.get_script_from_character(name)
     return jsonify([sia.polarity_scores(i["Sentence"])["compound"] for i in sentences])
+
+# -------------------------------------------------------------------------------------------------------------
+# Get the MEAN sentiment analysis (sa) of all the sentences of a character
+@app.route("/script/sa/character/mean/<name>")
+def sa_from_character_mean (name):
+    sentences = sql.get_script_from_character(name)
+    sa = [sia.polarity_scores(i["Sentence"])["compound"] for i in sentences]
+    mean_sa = np.mean(sa)
+    return jsonify(mean_sa)
 
 # -------------------------------------------------------------------------------------------------------------
 # Get the SA of all the sentences of a season
@@ -112,8 +129,6 @@ def sa_from_character_by_season (season, name):
     sentences = sql.get_character_script_from_season(season, name)
     return jsonify([sia.polarity_scores(i["Sentence"])["compound"] for i in sentences])
 
-
-
 # -------------------------------------------------------------------------------------------------------------
 # Get the MEAN SA of all the sentences of a character of a season by espisode
 @app.route("/script/sa/<season>/<episode>/mean/character/<name>")
@@ -124,9 +139,6 @@ def sa_from_character_by_episode_mean (season, episode, name):
     mean_sa = np.mean(sa)
     return jsonify(mean_sa)
 
-
-
-
 # -------------------------------------------------------------------------------------------------------------
 # Get the MEAN SA of all the sentences of a character of a season
 @app.route("/script/sa/<season>/mean/character/<name>")
@@ -136,7 +148,6 @@ def sa_from_character_by_season_mean (season, name):
     sa = [sia.polarity_scores(i["Sentence"])["compound"] for i in sentences]
     mean_sa = np.mean(sa)
     return jsonify(mean_sa)
-
 
 # -------------------------------------------------------------------------------------------------------------
 # Get the MEAN SA of all the sentences of a character of a season after removing stop words
@@ -164,16 +175,6 @@ def sa_from_character_by_season_meanstop (season, name):
 
     return jsonify(mean_sa)
 
-
-
-
-
-
-
-
-
-
-
 # -------------------------------------------------------------------------------------------------------------
 # Get the SA of all the sentences of an episode
 @app.route("/script/sa/<season>/<episode>")
@@ -187,7 +188,6 @@ def sa_from_episode (season, episode):
 def sa_from_character_by_episode (season, episode, name):
     sentences = sql.get_character_script_from_episode(season, episode, name)
     return jsonify([sia.polarity_scores(i["Sentence"])["compound"] for i in sentences])
-
 
 # -------------------------------------------------------------------------------------------------------- POST
 # Request a post
@@ -207,6 +207,7 @@ def insert_row ():
     sql.insert_one_row(id, release_date, season, episode, episode_title, name, sentence)
     return f"Query succesfully inserted"
 
+# -------------------------------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
     app.run()

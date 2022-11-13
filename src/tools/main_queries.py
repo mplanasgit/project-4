@@ -5,6 +5,20 @@ import pandas as pd
 import numpy as np
 
 # -------------------------------------------------------------------------------------------------------------
+# Function to get a df of the top characters by number of sentences
+def get_my_top_characters(url = "http://127.0.0.1:5000/top"):
+    '''This function requests a local API for the top characters of GoT based on their number of lines in the show.
+    Args
+    :url: str. your local port.
+    Returns
+    :df: dataframe. Contains the number of sentences by character
+    '''
+    endpoint = url
+    response = requests.get(endpoint)
+    df = json_normalize(response.json())
+    return df
+
+# -------------------------------------------------------------------------------------------------------------
 # Function to get a df of the script of a character for a given episode
 def get_my_character(season, episode, name, url = "http://127.0.0.1:5000/script/"):
     '''This function requests a local API for the script of your GoT character.
@@ -18,15 +32,29 @@ def get_my_character(season, episode, name, url = "http://127.0.0.1:5000/script/
     '''
     # Specify endpoint
     endpoint = url + f"{season}/{episode}/{name}"
-    
     # Get the response as df
     response = requests.get(endpoint)
-    
     try:
         df = json_normalize(response.json())
     except:
         return "Oops! There was an error in your request. Check our docs for the supported season, episode, and character names."
+    return df
+
+# -------------------------------------------------------------------------------------------------------------
+# Function to get a df of the sentiment analysis of a character for the entire show
+def sa_by_character_mean(names, url = "http://127.0.0.1:5000/script/sa/character/mean/"):
+    # To store the sentiments
+    dict_of_sa = {}
+    for n in names:
+        endpoint = url + f"{n}"
+        try:
+            response = requests.get(endpoint).json()
+        except:
+            return "Oops! There was an error in your request. Check our docs for the supported character names."
+        dict_of_sa[n.title()] = response
     
+    df = pd.DataFrame(list(dict_of_sa.items())).rename(columns = {0:'Name', 1:'Mean Compound'}).sort_values(by=["Mean Compound"]) 
+
     return df
 
 # -------------------------------------------------------------------------------------------------------------
