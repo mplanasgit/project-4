@@ -3,6 +3,9 @@ import markdown.extensions.fenced_code
 import tools.sql_queries as sql
 import tools.check_database as che
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+import numpy as np
 sia = SentimentIntensityAnalyzer()
 
 # ------------------------------------------------------------------------------------------------------- FLASK
@@ -108,6 +111,68 @@ def sa_from_season (season):
 def sa_from_character_by_season (season, name):
     sentences = sql.get_character_script_from_season(season, name)
     return jsonify([sia.polarity_scores(i["Sentence"])["compound"] for i in sentences])
+
+
+
+# -------------------------------------------------------------------------------------------------------------
+# Get the MEAN SA of all the sentences of a character of a season by espisode
+@app.route("/script/sa/<season>/<episode>/mean/character/<name>")
+def sa_from_character_by_episode_mean (season, episode, name):
+    # Get sentences
+    sentences = sql.get_character_script_from_episode (season, episode, name)
+    sa = [sia.polarity_scores(i["Sentence"])["compound"] for i in sentences]
+    mean_sa = np.mean(sa)
+    return jsonify(mean_sa)
+
+
+
+
+# -------------------------------------------------------------------------------------------------------------
+# Get the MEAN SA of all the sentences of a character of a season
+@app.route("/script/sa/<season>/mean/character/<name>")
+def sa_from_character_by_season_mean (season, name):
+    # Get sentences
+    sentences = sql.get_character_script_from_season(season, name)
+    sa = [sia.polarity_scores(i["Sentence"])["compound"] for i in sentences]
+    mean_sa = np.mean(sa)
+    return jsonify(mean_sa)
+
+
+# -------------------------------------------------------------------------------------------------------------
+# Get the MEAN SA of all the sentences of a character of a season after removing stop words
+@app.route("/script/sa/<season>/meanstop/character/<name>")
+def sa_from_character_by_season_meanstop (season, name):
+    # Get sentences
+    sentences = sql.get_character_script_from_season(season, name)
+    # Set of stop words, symbols to remove
+    stop_words = set(stopwords.words('english'))
+    symbols = ['?', '!', ',', '.', "'re", "'ve", "'s", "'m"]
+    # Store sentiment in list
+    sa_list = []
+    for sen in sentences:
+        # Tokenize words of each sentence
+        sentence_tokenized = word_tokenize(sen["Sentence"])
+        # Keep non stop words and filter out symbols
+        sentence_without_stop = [w for w in sentence_tokenized if not w.lower() in stop_words]
+        filtered_sentence = " ".join([w for w in sentence_without_stop if not w.lower() in symbols])
+        # Apply sentiment
+        sa = sia.polarity_scores(filtered_sentence)["compound"]
+        sa_list.append(sa)
+
+    # Calculate the mean sentiment of the season
+    mean_sa = np.mean(sa_list)
+
+    return jsonify(mean_sa)
+
+
+
+
+
+
+
+
+
+
 
 # -------------------------------------------------------------------------------------------------------------
 # Get the SA of all the sentences of an episode

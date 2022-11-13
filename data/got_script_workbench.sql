@@ -76,3 +76,10 @@ SELECT ID, Season, Episode, `Episode Title`, Name, Sentence FROM got_script
 	WHERE Season = "Season 1"
 		AND Episode = "Episode 1";
 
+SELECT Season, Episode, Name, Sentence FROM got_script
+	WHERE Season = "Season 1"
+		AND Episode = "Episode 1"
+        GROUP BY Name;
+        
+SELECT Season, Episode, Name, Sentence FROM got_script
+	WHERE Name LIKE "mountain%";
