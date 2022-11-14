@@ -17,16 +17,16 @@ API endpoints:
 | &rarr; /character/\<name> | Script of a character for the entire show |
 | &rarr; /\<season>/ | Script of an entire season |
 | &rarr; &rarr; /character/\<name> | Script of a character for a given season |
-| &rarr; &rarr; /\<episode> | Script of an entire episode |
-| &rarr; &rarr; &rarr; /\<name> | Script of a character for a given episode |
+| &rarr; &rarr; /\<episode> | Script of an entire episode of a season |
+| &rarr; &rarr; &rarr; /\<name> | Script of a character for a given episode of a season |
 | **Show sentiment analysis (SA)** |
 | &rarr; /sa/character/\<name> | SA of a character for the entire show |
 | &rarr; &rarr; /mean/character/\<name> | Mean SA of a character for the entire show | 
 | &rarr; &rarr; /meanstop/character/\<name> | Mean SA (filtering out stopwords) of a character for the entire show |
 | &rarr; &rarr; /\<season> | SA of an entire season |
-| &rarr; &rarr; &rarr; /\<episode> | SA of an entire episode |
-| &rarr; &rarr; &rarr; &rarr; /\<name> | SA of a character for a given episode |
-| &rarr; &rarr; &rarr; &rarr; /mean/character/\<name> | Mean SA of a character for a given episode |
+| &rarr; &rarr; &rarr; /\<episode> | SA of an entire episode of a season |
+| &rarr; &rarr; &rarr; &rarr; /\<name> | SA of a character for a given episode of a season |
+| &rarr; &rarr; &rarr; &rarr; /mean/character/\<name> | Mean SA of a character for a given episode of a season |
 | /insertrow |
 
 
