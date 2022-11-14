@@ -8,7 +8,7 @@
 ## 1- Main objective
 - The main objective of this project was to build an API that retrieved information requested by the user. In this case, the database accessed by the API contained the script of the entire show of **Game of Thrones (GoT)**. 
 - The database was loaded into MySQL workbench and the information was retrieved through different API endpoints that executed **SQL queries**. 
-- In addition, the API retrieved the **natural language sentiment analysis** of the GoT script upon user request. The goal was to analyse the evolution of a character throughout the series based on its language.
+- In addition, the API retrieved the **natural language sentiment analysis** of the GoT script upon user request. The goal was to analyse the evolution of the characters throughout the series based on their language.
 
 ## 2- Structure of the API
 The API was built using the **Flask** library in a local route. Find below the different endpoints of the API. Each endpoint retrieved the information of a corresponding query.  
@@ -18,13 +18,13 @@ The API was built using the **Flask** library in a local route. Find below the d
 | **Endpoint** | **Information** |
 | --- | --- |
 | / | API docs \*under construction* |
-| /top | Characters ordered by nº of sentences |
+| /top | Characters ordered by nº of sentences in the show |
 | /random/\<name> | Random sentences of the specified character |
 | **Retrieve scripts**  |  |
 | /script | Script of the entire show |
 | /script/character/\<name> | Script of a given character for the entire show, divided in seasons and episodes |
 | /script/\<season>/ | Script of an entire season |
-| /script/\<season>/character/\<name> | Script of a character for a given season |
+| /script/\<season>/character/\<name> | Script of a character for a given season divided in episodes |
 | /script/\<season>/\<episode> | Script of a character for a given episode |
 | /script/\<season>/\<episode>/\<name> | Script of a character for a given episode of a season |
 | **Retrieve sentiment analysis (SA)** |
@@ -37,7 +37,6 @@ The API was built using the **Flask** library in a local route. Find below the d
 | /script/sa/\<season>/\<episode>/mean/character/\<name> | Mean SA of a character for a given episode of a season |
 | /insertrow | Inserts a new row into the script dataset |
 
-<br>
 
 ## 3- Queries
 
@@ -90,22 +89,21 @@ The natural language sentiment analysis (SA) was performed using the **NLTK Sent
 - The result of the SA is a value called `compound` that summarizes and normalizes the amount of negative and positive words. This score takes values from -1 to 1, indicating maximum negativity and maximum positivity, respectively. 
 - A sentence is considered **significantly** negative or positive if its compound value is lower than -0.05 or greater than 0.05, respectively. For clarification, positivity/negativity thresholds were drawn in the corresponding plots.
 
-<br>
 
-#### 4.1- Main Game of Thrones characters based on the number of lines in the show
+### 4.1- Main Game of Thrones characters based on the number of lines in the show
 
 Before performing the SA, the main characters of the show and their sentence count were retrieved from the `/top` endpoint of the API. Not surprisingly, Tyrion Lannister ranked number one as the character with more sentences of the entire show, almost doubling the counts of his *beloved* siblings!
 
 ![sentence_counts](images/sentences_counts.jpg)
 
-#### 4.2- Comparing the presence and absence of stopwords in the SA
+### 4.2- Comparing the presence and absence of stopwords in the SA
 
 The sentiment analysis was performed before and after removing the so called *stop words*. These words are deemed insignificant in the natural language analysis. 
 - In this particular case, the presence or absence of stop words didn't significantly change the outcome of the analysis. See below the evolution of Arya Stark's language over the eight seasons of the show, **with and without stopwords**.
 
 ![stopwords](images/with_without_stopwords.jpg)
 
-#### 4.3- Sentiment score of the top 20 main characters
+### 4.3- Sentiment score of the top 20 main characters
 
 The natural language was analysed for the 20 characters with more sentences in the show. 
 
@@ -115,7 +113,7 @@ The natural language was analysed for the 20 characters with more sentences in t
 
 ![top20](images/top20_compound_wordcloud.jpg)
 
-#### 4.4- Evolution of main characters throughout the show
+### 4.4- Evolution of main characters throughout the show
 
 Next, the sentiment compound of the four main characters was plotted over the different seasons. Interestingly, the language of **Jon** and **Cersei** seems to follow an **opposite** trend, while Daenerys and Tyrion's languages show spikes of positivity in the middle and by the end of the show, respectively.
 
@@ -125,7 +123,7 @@ A word cloud of these characters for the entire show is shown below:
 
 ![wordcloud](images/wordcloud.jpg)
 
-#### 4.5- Analysis of the most negative episodes
+### 4.5- Analysis of the most negative episodes
 
 Next, the most *negative* episodes -in terms of language/script- were identified and their sentiment `compound` was plotted over the duration of the episode.
 
@@ -143,13 +141,13 @@ Turns out that this episode featured one of the most brutal scenes we have seen 
 
 ![got_4x08](images/Got_4x08.jpg)
 
-#### 4.6- Character evolution: Theon Greyjoy vs Ramsay Bolton
+### 4.6- Character evolution: Theon Greyjoy vs Ramsay Bolton
 
 Finally, this last graph shows the evolution of Theon Greyjoy's and Ramsay Bolton's language. Ramsay kidnapped and tortured Theon, which correlates with an increased negativity sentiment in the language of Theon. Interestingly enough, after Ramsay's death and subsequent liberation of Theon, Theon's language evolves towards a more neutral side (*Dobby is free!*). 
 
 ![ramsay_theon](images/ramsay_theon.jpg)
 
-#### 4.7- BONUS
+### 4.7- BONUS
 
 If you made this far you deserve a **Bonus!** Here is a word cloud of Hodor's transition to insanity. 
 
@@ -162,8 +160,10 @@ I'm sure you remember the actual scene:
 ### 5- Key documents
 
 - `main.py` - python file for the local API/server.
-- `sql_queries.py` - python file containing SQL query functions.
-- `check_database.py` - python file containing check functions (check if an inputed season/episode or name are valid; if not, the function returns a message).
-- `main_queries.py` - python file containing operation functions (loop queries, cleaning,...).
-- `visualization.py` - python file containing functions to build graphs.
-- `requests.ipynb` - jupyter notebook where the requests were performed.
+- `sql_connection.py` (/src/config) - python file to connect to MySQL.
+- `sql_queries.py` (/src/tools) - python file containing SQL query functions.
+- `check_database.py` (/src/tools) - python file containing check functions (check if an inputed season/episode or name are valid; if not, the function returns a message).
+- `main_queries.py` (/src/tools) - python file containing operation functions (loop queries, cleaning,...).
+- `visualization.py` (/src/tools) - python file containing functions to build graphs.
+- `requests.ipynb` (/src/tools) - jupyter notebook where the requests were performed.
+- `output` folder - contains the graphs from the analysis.
