@@ -10,6 +10,8 @@
 - The database was loaded into MySQL workbench and the information was retrieved through different API endpoints that executed **SQL queries**. 
 - In addition, the API retrieved the **natural language sentiment analysis** of the GoT script upon user request. The goal was to analyse the evolution of the characters throughout the series based on their language.
 
+<br>
+
 ## 2- Structure of the API
 The API was built using the **Flask** library in a local route. Find below the different endpoints of the API. Each endpoint retrieved the information of a corresponding query.  
 
@@ -37,6 +39,7 @@ The API was built using the **Flask** library in a local route. Find below the d
 | /script/sa/\<season>/\<episode>/mean/character/\<name> | Mean SA of a character for a given episode of a season |
 | /insertrow | Inserts a new row into the script dataset |
 
+<br>
 
 ## 3- Queries
 
@@ -157,6 +160,8 @@ I'm sure you remember the actual scene:
 
 ![hold_the_hodor](images/hold_the_door.jpg)
 
+<br>
+
 ### 5- Key documents
 
 - `main.py` - python file for the local API/server.
@@ -166,4 +171,4 @@ I'm sure you remember the actual scene:
 - `main_queries.py` (/src/tools) - python file containing operation functions (loop queries, cleaning,...).
 - `visualization.py` (/src/tools) - python file containing functions to build graphs.
 - `requests.ipynb` (/src/tools) - jupyter notebook where the requests were performed.
-- `output` folder - contains the graphs from the analysis.
+- `output` folder (/src/tools) - contains the graphs from the analysis.
