@@ -14,22 +14,21 @@ API endpoints:
 | /random/\<name> | Random sentences of the specified character |
 | **Show scripts** | 
 | /script | Script of the entire show |
-| .... /character/\<name> | Script of a character for the entire show |
-| .... /\<season>/ | Script of an entire season |
-| ....................... /character/\<name> | Script of a character for a given season |
-| ............... /\<episode> | Script of an entire episode |
-| .......................... /\<name> | Script of a character for a given episode |
+| &rarr; /character/\<name> | Script of a character for the entire show |
+| &rarr; /\<season>/ | Script of an entire season |
+| &rarr; &rarr; /character/\<name> | Script of a character for a given season |
+| &rarr; &rarr; /\<episode> | Script of an entire episode |
+| &rarr; &rarr; &rarr; /\<name> | Script of a character for a given episode |
 | **Show sentiment analysis (SA)** |
-| ..... /sa/character/\<name> | SA of a character for the entire show |
-| ......... /mean/character/\<name> | Mean SA of a character for the entire show | 
-| ......... /meanstop/character/\<name> | Mean SA (filtering out stopwords) of a character for the entire show |
-| ......... /\<season> | SA of an entire season |
-| ............... /\<episode> | SA of an entire episode |
-| ............... /\<episode>/mean/character/\<name> | SA of a character for a given  |
-| .......................... /\<name> | SA of a character for a given episode |
+| &rarr; /sa/character/\<name> | SA of a character for the entire show |
+| &rarr; &rarr; /mean/character/\<name> | Mean SA of a character for the entire show | 
+| &rarr; &rarr; /meanstop/character/\<name> | Mean SA (filtering out stopwords) of a character for the entire show |
+| &rarr; &rarr; /\<season> | SA of an entire season |
+| &rarr; &rarr; &rarr; /\<episode> | SA of an entire episode |
+| &rarr; &rarr; &rarr; &rarr; /\<name> | SA of a character for a given episode |
+| &rarr; &rarr; &rarr; &rarr; /mean/character/\<name> | Mean SA of a character for a given episode |
 | /insertrow |
 
-&rarr;
 
 ## 3- Queries
 ### 3.1- Get
