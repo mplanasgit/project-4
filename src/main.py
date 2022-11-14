@@ -16,7 +16,7 @@ app = Flask(__name__)
 # Render the markdwon
 @app.route("/")
 def readme ():
-    readme_file = open("../README.md", "r")
+    readme_file = open("../README_API.md", "r")
     return markdown.markdown(readme_file.read(), extensions = ["fenced_code"])
 
 # ----------------------------------------------------------------------------------------------------- GET TOP
@@ -30,7 +30,8 @@ def get_top_characters ():
 @app.route("/random/<name>")
 def random_from_character (name):
     if che.check_character(name):
-        return jsonify(sql.get_random(name))
+        sentence = jsonify(sql.get_random(name))
+        return sentence
     else:
         return "The specified character is not valid. Refer to our docs for the names of the characters."
 
@@ -46,6 +47,15 @@ def get_show_script():
 def script_from_character (name):
     if che.check_character(name):
         return jsonify(sql.get_script_from_character(name))
+    else:
+        return "The specified character is not valid. Refer to our docs for the names of the characters."
+
+# -------------------------------------------------------------------------------------------------------------
+# Get the sentences of the entire show for a specified character
+@app.route("/script/character/sentences/<name>")
+def sentences_from_character (name):
+    if che.check_character(name):
+        return jsonify(sql.get_sentences(name))
     else:
         return "The specified character is not valid. Refer to our docs for the names of the characters."
 

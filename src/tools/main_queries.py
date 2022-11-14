@@ -3,6 +3,8 @@ import requests
 from pandas import json_normalize
 import pandas as pd
 import numpy as np
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 
 # -------------------------------------------------------------------------------------------------------------
 # Function to get a df of the top characters by number of sentences
@@ -146,3 +148,29 @@ def sa_by_episodes_mean(season, episode, names, stop = "", url = "http://127.0.0
     df = pd.DataFrame(dict_of_sa)
 
     return df
+
+# -------------------------------------------------------------------------------------------------------------
+# Function to get a df of all the sentences of a character for the entire show
+def sentences_by_character(names, url = "http://127.0.0.1:5000/script/character/sentences/"):
+    # To store the sentences
+    dict_of_sentences = {}
+    for n in names:
+        endpoint = url + f"{n}"
+        try:
+            response = requests.get(endpoint).json()
+        except:
+            return "Oops! There was an error in your request. Check our docs for the supported character names."
+        dict_of_sentences[n.title()] = response
+    
+    df = pd.DataFrame(list(dict_of_sentences.items())).rename(columns = {0:'Name', 1:'Sentence'})
+
+    return df
+
+# -------------------------------------------------------------------------------------------------------------
+# Function to clean sentences from sentences_by_character df
+def clean_sentences(df, name):
+    list_sentences = []
+    for sentence in df.loc[df['Name'] == name]['Sentence'].values[0]:
+        list_sentences.append(sentence['Sentence'])
+    script = " ".join(list_sentences)
+    return script
