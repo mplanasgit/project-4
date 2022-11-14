@@ -85,7 +85,7 @@ The language sentiment analysis (SA) was performed using the **NLTK Sentiment Va
 
 Before performing the SA, the main characters of the show and their sentence count were retrieved from the `/top` endpoint of the API. Not surprisingly, Tyrion Lannister ranked number one as the character with more sentences of the entire show, almost doubling the counts of his *beloved* siblings!
 
-![sentence_counts](images/sentences_counts.jpg)
+![sentence_counts](images/with_without_stopwords.jpg)
 
 **Comparing the presence and absence of stopwords in the SA**
 
@@ -101,8 +101,6 @@ The natural language was analysed for the 20 characters with more sentences in t
 - As seen in the graph, Petyr Baelish (*Littlefinger*), Varys (*the Spider*) and Davos ranked as the three main characters that frequent a positive language, which is related to their role as **councelors**.  
 
 - In the opposite side we encounter Arya Stark and Theon Greyjoy, who appear as the two most negative main characters. Both of them went through very **traumatic** life experiences, which is reflected in the language they typically use.
-
-![top20](images/top20_compound.jpg)
 
 ![top20](images/top20_compound_wordcloud.jpg)
 
@@ -136,9 +134,13 @@ Turns out that this episode featured one of the most brutal scenes we have seen 
 
 **Character evolution: Theon Greyjoy vs Ramsay Bolton**
 
-Finally, the last graph shows the evolution of Theon Greyjoy's and Ramsay Bolton's language
+Finally, this last graph shows the evolution of Theon Greyjoy's and Ramsay Bolton's language. Ramsay kidnapped and tortured Theon, which correlates with an increased negativity sentiment in the language of Theon. Interestingly enough, after Ramsay's death and subsequent liberation of Theon, Theon's language evolves towards a more neutral side (*Dobby is free!*). 
 
 ![ramsay_theon](images/ramsay_theon.jpg)
+
+If you made this far, you deserve a Bonus!
+
+![hodor](images/hodor.jpg)
 
 ### 5- Key documents
 
