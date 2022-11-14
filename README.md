@@ -132,7 +132,7 @@ Next, the most *negative* episodes -in terms of language/script- were identified
 
 ![sentiment7x07](src/tools/output/episode7x07.jpg)
 
-The episode **The Dragon and the Wolf** featured the discussion between the three main families of the series -Stark, Lannister and Targaryen- to evaluate the situation at The Wall concerning the *white walkers*. No wonder why the language used in that meeting, where the three families collapsed, was THAT *negative*.
+The episode **The Dragon and the Wolf** featured the discussion between the three main families of the series -Stark, Lannister and Targaryen- to evaluate the situation at The Wall concerning the *white walkers*. No wonder why the language used in that meeting, where the three families collided, was THAT *negative*.
 
 ![got_7x07](images/Got_7x07.jpg)
 
