@@ -87,12 +87,18 @@ Before performing the SA, the main characters of the show were retrieved from th
 
 <img src="./src/tools/output/number_sentences.jpg" width="500"/>
 
+![sentence_counts](src/tools/output/number_sentences.jpg)
+
+
 <br>
 
 - **Comparing the presence of stopwords in the SA**
 After plotting the sentiment
 
 <img src="./images/with_without_stopwords.jpg" width="500"/>
+
+![stopwords](images/with_without_stopwords.jpg)
+
 
 - **Sentiment score of the top 20 main characters**
 
