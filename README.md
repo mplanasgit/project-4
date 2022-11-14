@@ -1,13 +1,12 @@
 **Ironhack Project-4**
 
 ---
-# API of Thrones 
-#### An analysis of the Game of Thrones character language through a self-built API
+# An analysis of the Game of Thrones natural language using an in-house API
 ---
 ## 1- Main objective
-- The main objective of this project was to build an API that retrieved the information requested by the user. In this case, the database accessed by the API contained the script of the entire show of **Game of Thrones (GoT)**. 
-- The database was loaded in MySQL workbench and the information was retrieved through different API endpoints that executed **SQL queries**. 
-- In addition, the API retrieved the **language sentiment analysis** of the GoT script upon user request.
+- The main objective of this project was to build an API that retrieved information requested by the user. In this case, the database accessed by the API contained the script of the entire show of **Game of Thrones (GoT)**. 
+- The database was loaded into MySQL workbench and the information was retrieved through different API endpoints that executed **SQL queries**. 
+- In addition, the API retrieved the **natural language sentiment analysis** of the GoT script upon user request. The goal was to analyse the evolution of a character throughout the series based on its language.
 
 ## 2- Structure of the API
 The API was built using the **Flask** library in a local route. Find below the different endpoints of the API. Each endpoint retrieved the information of a corresponding query.  
@@ -67,9 +66,10 @@ def insert_one_row (id, release_date, season, episode, episode_title, name, sent
     engine.execute(query)
     return f"Correctly introduced!"
 ```
-A new row was inserted in the table's database!
+A new character line was inserted in the table's database!
 
-<img src="./images/post_request.jpg" width="500"/>
+
+![post_request](images/post_request.jpg)
 
 <br>
 
@@ -81,35 +81,65 @@ The language sentiment analysis (SA) was performed using the **NLTK Sentiment Va
 
 <br>
 
-**Main GoT characters based on their number of lines**
+**Main Game of Thrones characters based on the number of lines in the show**
 
-Before performing the SA, the main characters of the show were retrieved from the `/top` endpoint.
+Before performing the SA, the main characters of the show and their sentence count were retrieved from the `/top` endpoint of the API. Not surprisingly, Tyrion Lannister ranked number one as the character with more sentences of the entire show, almost doubling the counts of his *beloved* siblings!
 
-<img src="./src/tools/output/number_sentences.jpg" width="500"/>
+![sentence_counts](images/sentences_counts.jpg)
 
-![sentence_counts](src/tools/output/number_sentences.jpg)
+**Comparing the presence and absence of stopwords in the SA**
 
-
-<br>
-
-- **Comparing the presence of stopwords in the SA**
-After plotting the sentiment
-
-<img src="./images/with_without_stopwords.jpg" width="500"/>
+The sentiment analysis was performed before and after removing the so called *stop words*. These words are deemed insignificant in the natural language analysis. 
+- In this particular case, the presence or absence of stop words didn't significantly change the outcome of the analysis. See below the evolution of Arya Stark's language over the eight seasons of the show.
 
 ![stopwords](images/with_without_stopwords.jpg)
 
+**Sentiment score of the top 20 main characters**
 
-- **Sentiment score of the top 20 main characters**
+The natural language was analysed for the 20 characters with more sentences in the show. 
 
-- **Evolution of main characters by season**
+- As seen in the graph, Petyr Baelish (*Littlefinger*), Varys (*the Spider*) and Davos ranked as the three main characters that frequent a positive language, which is related to their role as **councelors**.  
 
-- **Most negative episodes**
+- In the opposite side we encounter Arya Stark and Theon Greyjoy, who appear as the two most negative main characters. Both of them went through very **traumatic** life experiences, which is reflected in the language they typically use.
+
+![top20](images/top20_compound.jpg)
+
+![top20](images/top20_compound_wordcloud.jpg)
+
+**Evolution of main characters throughout the show**
+
+Next, the sentiment compound of the four main characters was plotted over the different seasons. Interestingly, the language of **Jon** and **Cersei** seems to follow an **opposite** trend, while Daenerys and Tyrion's languages show spikes of positivity in the middle and by the end of the show, respectively.
+
+![main](images/main_characters_evolution.jpg)
+
+A word cloud of these characters is shown below:
+
+![wordcloud](images/wordcloud.jpg)
+
+**Analysis of the most negative episodes**
+
+A continuation, the most *negative* episodes -in terms of language used by the characters- were identified and their sentiment `compound` was plotted over the duration of the episode.
+
+![sentiment7x07](src/tools/output/episode7x07.jpg)
+
+The episode **The Dragon and the Wolf** featured the discussion between the three main families of the series -Stark, Lannister and Targaryen- to evaluate the situation at The Wall concerning the *white walkers*. No wonder why the language used in that meeting were the three families collapsed was THAT *negative*.
+
+![got_7x07](images/Got_7x07.jpg)
+
+On the other hand, the second most negative episode was **The Mountain and The Viper**. A closer inspection of the plot reveals a particularly negative spike by the end of the episode.
+
+![sentiment4x08](images/Got_4x08_sentiment.jpg)
+
+Turns out that this episode featured one of the most brutal scenes we have seen from the show. A hint:
+
+![got_4x08](images/Got_4x08.jpg)
+
+**Character evolution: Theon Greyjoy vs Ramsay Bolton**
+
+Finally, the last graph shows the evolution of Theon Greyjoy's and Ramsay Bolton's language
+
+![ramsay_theon](images/ramsay_theon.jpg)
+
+### 5- Key documents
 
 -
--
-
-- **Oberyn Martell vs The Mountain**
-
-- **Theon Greyjoy vs Ramsay Bolton**
-
