@@ -1,7 +1,9 @@
 **Ironhack Project-4**
 
 ---
-# An analysis of the Game of Thrones natural language using an in-house API
+# Analysis of the Game of Thrones natural language using a local API
+
+![title](images/title.jpg)
 ---
 ## 1- Main objective
 - The main objective of this project was to build an API that retrieved information requested by the user. In this case, the database accessed by the API contained the script of the entire show of **Game of Thrones (GoT)**. 
@@ -12,29 +14,31 @@
 The API was built using the **Flask** library in a local route. Find below the different endpoints of the API. Each endpoint retrieved the information of a corresponding query.  
 
 **API endpoints:**
+
 | **Endpoint** | **Information** |
 | --- | --- |
-| / | API docs |
+| / | API docs \*under construction* |
 | /top | Characters ordered by nº of sentences |
 | /random/\<name> | Random sentences of the specified character |
-| **Show scripts** | 
+| **Retrieve scripts** | 
 | /script | Script of the entire show |
-| ........ /character/\<name> | Script of a character for the entire show |
-| ........ /\<season>/ | Script of an entire season |
-| .................... /character/\<name> | Script of a character for a given season |
-| .................... /\<episode>/\<name> | Script of a character for a given episode. If no name is specified returns the script of an entire episode of a season |
-| ................................ /\<name> | Script of a character for a given episode of a season |
-| **Show sentiment analysis (SA)** |
-| ........ /sa/character/\<name> | SA of a character for the entire show |
-| ................ /mean/character/\<name> | Mean SA of a character for the entire show | 
-| ................ /meanstop/character/\<name> | Mean SA (filtering out stopwords) of a character for the entire show |
-| .................... /\<season> | SA of an entire season |
-| ................................ /\<episode> | SA of an entire episode of a season |
-| ............................................ /\<name> | SA of a character for a given episode of a season |
-| ............................................ /mean/character/\<name> | Mean SA of a character for a given episode of a season |
+| /script/character/\<name> | Script of a given character for the entire show, divided in seasons and episodes |
+| /script/\<season>/ | Script of an entire season |
+| /script/\<season>/character/\<name> | Script of a character for a given season |
+| /script/\<season>/\<episode> | Script of a character for a given episode |
+| /script/\<season>/\<episode>/\<name> | Script of a character for a given episode of a season |
+| **Retrieve sentiment analysis (SA)** |
+| /script/sa/character/\<name> | SA of a character for the entire show |
+| /script/sa/\<season>/mean/character/\<name> | Mean SA of a character for the entire show | 
+| /script/sa/\<season>/meanstop/character/\<name> | Mean SA (filtering out stopwords) of a character for the entire show |
+| /script/sa/\<season> | SA of an entire season |
+| /script/sa/\<season>/\<episode> | SA of an entire episode of a season |
+| /script/sa/\<season>/\<episode>/\<name> | SA of a character for a given episode of a season |
+| /script/sa/\<season>/\<episode>/mean/character/\<name> | Mean SA of a character for a given episode of a season |
 | /insertrow |
 
 <br>
+
 ## 3- Queries
 
 An examples of get and post request queries are shown below.
@@ -54,6 +58,9 @@ def get_random (name):
 
     return sentence[0]['Sentence']
 ```
+It works! (Yes, I refreshed the page many times until I encountered it...)
+
+![you_know_nothing](images/you_know_nothing.jpg)
 
 ### 3.2- Post
 
@@ -66,7 +73,7 @@ def insert_one_row (id, release_date, season, episode, episode_title, name, sent
     engine.execute(query)
     return f"Correctly introduced!"
 ```
-A new character line was inserted in the table's database!
+A new character line was inserted in the database's table!
 
 
 ![post_request](images/post_request.jpg)
@@ -116,7 +123,7 @@ A word cloud of these characters is shown below:
 
 **Analysis of the most negative episodes**
 
-A continuation, the most *negative* episodes -in terms of language used by the characters- were identified and their sentiment `compound` was plotted over the duration of the episode.
+Next, the most *negative* episodes -in terms of language/script- were identified and their sentiment `compound` was plotted over the duration of the episode.
 
 ![sentiment7x07](src/tools/output/episode7x07.jpg)
 
@@ -138,10 +145,21 @@ Finally, this last graph shows the evolution of Theon Greyjoy's and Ramsay Bolto
 
 ![ramsay_theon](images/ramsay_theon.jpg)
 
-If you made this far, you deserve a Bonus!
+**BONUS**
+
+If you made this far you deserve a **Bonus!** Here is a word cloud of Hodor's transition to insanity. 
 
 ![hodor](images/hodor.jpg)
 
+I'm sure you remember the actual scene:
+
+![hold_the_hodor](images/hold_the_door.jpg)
+
 ### 5- Key documents
 
--
+- `main.py` - python file for the local API/server.
+- `sql_queries.py` - python file containing SQL query functions.
+- `check_database.py` - python file containing check functions (check if an inputed season/episode or name are valid; if not, the function returns a message).
+- `main_queries.py` - python file containing operation functions (loop queries, cleaning,...).
+- `visualization.py` - python file containing functions to build graphs.
+- `requests.ipynb` - jupyter notebook where the requests were performed.
