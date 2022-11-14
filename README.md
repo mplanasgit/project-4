@@ -12,24 +12,24 @@ API endpoints:
 | / | API docs |
 | /top | Characters ordered by nº of sentences |
 | /random/\<name> | Random sentences of the specified character |
-| **Show scripts**| 
+| **Show scripts** | 
 | /script | Script of the entire show |
-| ..... /character/\<name> | Script of a character for the entire show |
-| ..... /\<season>/ | Script of an entire season |
-| ............... /character/\<name> | Script of a character for a given season |
+| .... /character/\<name> | Script of a character for the entire show |
+| .... /\<season>/ | Script of an entire season |
+| ....................... /character/\<name> | Script of a character for a given season |
 | ............... /\<episode> | Script of an entire episode |
 | .......................... /\<name> | Script of a character for a given episode |
-| ..... /sa/character/\<name> | Script |
-| ............... /mean/\<name> |
-| **Show sentiment analysis**
-| /script/sa/\<season> |
-| ......... /character/\<name> |
-| ......... /mean/character/\<name> |
-| ......... /meanstop/character/\<name> |
-| ......... /\<episode>/mean/character/\<name> |
-| ......... /\<episode> |
-| .................. /\<name> |
+| **Show sentiment analysis (SA)** |
+| ..... /sa/character/\<name> | SA of a character for the entire show |
+| ......... /mean/character/\<name> | Mean SA of a character for the entire show | 
+| ......... /meanstop/character/\<name> | Mean SA (filtering out stopwords) of a character for the entire show |
+| ......... /\<season> | SA of an entire season |
+| ............... /\<episode> | SA of an entire episode |
+| ............... /\<episode>/mean/character/\<name> | SA of a character for a given  |
+| .......................... /\<name> | SA of a character for a given episode |
 | /insertrow |
+
+&rarr;
 
 ## 3- Queries
 ### 3.1- Get
