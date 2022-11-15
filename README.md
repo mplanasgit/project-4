@@ -162,7 +162,7 @@ A new character line was inserted into the database's table!
 The natural language sentiment analysis (SA) was performed using the **NLTK Sentiment Vader** library.
 - The result of the SA is a value called `compound` that summarizes and normalizes the amount of negative and positive words. This score takes values from -1 to 1, indicating maximum negativity and maximum positivity, respectively. 
 - A sentence is considered **significantly** negative or positive if its compound value is lower than -0.05 or greater than 0.05, respectively. For clarification, positivity/negativity thresholds were drawn in the corresponding plots.
-- The SA `compound` value was directly requested from the API using the endpoints tagged with *sa*: `/script/sa/...`.
+- The SA `compound` value was directly requested from the API using the endpoints tagged with *sa*: `/script/sa/`.
 
 
 ### 4.1- Main Game of Thrones characters based on the number of lines in the show
