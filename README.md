@@ -80,7 +80,7 @@ It works! (Yes, I refreshed the page many times until I found it...)
 
 ![you_know_nothing](images/you_know_nothing.jpg)
 
-The next is an example on how to retrieve the script of a character for a given episode. The following function **checks for the existance/syntax** of the specified season, episode and character name in the database, and returns a json file with the corresponding information if everything was inputed correctly. Otherwise, it prints an error message.
+The following is an example on how to retrieve the script of a character for a given episode. The function executed at the endpoint **checks for the existance/syntax** of the specified season, episode and character name in the database, and returns a json file with the corresponding information if everything was inputed correctly. Otherwise, it prints an error message.
 
 ```python
 # API endpoint
@@ -110,11 +110,12 @@ def get_character_script_from_episode (season, episode, name):
     return df.to_dict(orient="records")
 ```
 
-The season, episode and character name should be inputed with **spaces** (see URL). In this case, Mozilla Firefox was chosen to easily distinguish the kind of information that is retrieved by the API.
+
+- The season, episode and character name should be inputed with **spaces** (see URL). In this case, Mozilla Firefox was chosen to easily distinguish the kind of information that is retrieved by the API.
 
 ![example](images/example_query.jpg)
 
-If the request does not follow the specified syntax, or the season, episode or character names do not exist in the database, the API returns an **error message** specifying the reason:
+- If the request does not follow the specified syntax, or the season, episode or character names do not exist in the database, the API returns an **error message** specifying the reason:
 
 ![error](images/error_message.jpg)
 
