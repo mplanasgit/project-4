@@ -13,7 +13,7 @@
 <br>
 
 ## 2- Structure of the API
-The Game of Thrones script dataset was obtained from [Kaggle](https://www.kaggle.com/datasets/albenft/game-of-thrones-script-all-seasons). The script was very well curated and contained just a couple of missing values. It is divided in seasons and episodes and each row represents a line sentence from a character:
+The Game of Thrones script dataset was obtained from [Kaggle](https://www.kaggle.com/datasets/albenft/game-of-thrones-script-all-seasons). The script was very well curated and contained just a couple missing values. It is divided in seasons and episodes and each row represents a line sentence from a character:
 
 ![script](images/Got_script.jpg)
 
