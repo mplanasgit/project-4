@@ -17,7 +17,7 @@ The Game of Thrones script dataset was obtained from [Kaggle](https://www.kaggle
 
 ![script](images/Got_script.jpg)
 
-The API was built using the **Flask** library in a local route. Find below the different endpoints of the API. Each endpoint retrieved the information of a corresponding query.  
+The API was built using the **Flask** framework in a local route. Find below the different endpoints of the API. Each endpoint retrieved the information of a corresponding query.  
 
 **API endpoints:**
 
@@ -36,8 +36,8 @@ The API was built using the **Flask** library in a local route. Find below the d
 | **Retrieve sentiment analysis (SA)** | *** |
 | /script/sa/character/\<name> | SA of a character for the entire show |
 | /script/sa/\<season> | SA of an entire season |
-| /script/sa/\<season>/mean/character/\<name> | Mean SA of a character for the entire show | 
-| /script/sa/\<season>/meanstop/character/\<name> | Mean SA of a character for the entire show filtering out stop words |
+| /script/sa/\<season>/mean/character/\<name> | Mean SA of a character for a given season | 
+| /script/sa/\<season>/meanstop/character/\<name> | Mean SA of a character for for a given season filtering out stop words |
 | /script/sa/\<season>/\<episode> | SA of an entire episode of a season |
 | /script/sa/\<season>/\<episode>/\<name> | SA of a character for a given episode of a season |
 | /script/sa/\<season>/\<episode>/mean/character/\<name> | Mean SA of a character for a given episode of a season |
@@ -79,6 +79,44 @@ def get_random (name):
 It works! (Yes, I refreshed the page many times until I found it...)
 
 ![you_know_nothing](images/you_know_nothing.jpg)
+
+The next is an example on how to retrieve the script of a character for a given episode. The following function **checks for the existance/syntax** of the specified season, episode and character name in the database, and returns a json file with the corresponding information if everything was inputed correctly. Otherwise, it prints an error message.
+
+```python
+# API endpoint
+@app.route("/script/<season>/<episode>/<name>")
+def character_script_by_episode (season, episode, name):
+    if che.check_season(season):
+        if che.check_episode(season, episode):
+            if che.check_character(name):
+                return jsonify(sql.get_character_script_from_episode(season, episode, name))
+            else:
+                return "The specified character is not valid. Refer to our docs for the names of the characters."
+        else:
+            return "The specified episode is not valid. Please specify the episode in the following format: episode N , where N is a number from 1 to 10 for Seasons 1 to 6. Season 7 consists of 7 episodes, and Season 8 consists of 6 episodes."
+    else:
+        return "The specified season is not valid. Please specify the season in the following format: season N , where N is a number from 1 to 8."
+
+# SQL query executed at the endpoint
+def get_character_script_from_episode (season, episode, name):
+    query = f"""SELECT ID, Season, Episode, `Episode Title`, Name, Sentence
+    FROM got_script
+    WHERE Season = '{season}'
+    AND Episode = '{episode}'
+    AND Name = '{name}';"""
+
+    df = pd.read_sql_query(query, engine)
+
+    return df.to_dict(orient="records")
+```
+
+The season, episode and character name should be inputed with **spaces** (see URL). In this case, Mozilla Firefox was chosen to easily distinguish the kind of information that is retrieved by the API.
+
+![example](images/example_query.jpg)
+
+If the request does not follow the specified syntax, or the season, episode or character names do not exist in the database, the API returns an **error message** specifying the reason:
+
+![error](images/error_message.jpg)
 
 ### 3.2- Post
 
@@ -196,7 +234,7 @@ I'm sure you remember the actual scene:
 
 ### 5- Key documents
 
-- `main.py` - python file for the local API/server.
+- `main.py` - python file to execute the local API/server.
 - `sql_connection.py` (/src/config) - python file to connect to MySQL.
 - `sql_queries.py` (/src/tools) - python file containing SQL query functions.
 - `check_database.py` (/src/tools) - python file containing check functions (check if an inputed season/episode or name are valid; if not, the function returns a message).
