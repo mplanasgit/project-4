@@ -26,14 +26,14 @@ The API was built using the **Flask** library in a local route. Find below the d
 | / | API docs \*under construction* |
 | /top | Characters ordered by nº of sentences in the show |
 | /random/\<name> | Random sentences of the specified character |
-| **Retrieve scripts**  |  |
+| **Retrieve scripts**  | *** |
 | /script | Script of the entire show |
 | /script/character/\<name> | Script of a given character for the entire show, divided in seasons and episodes |
 | /script/\<season>/ | Script of an entire season |
 | /script/\<season>/character/\<name> | Script of a character for a given season divided in episodes |
 | /script/\<season>/\<episode> | Script of a character for a given episode |
 | /script/\<season>/\<episode>/\<name> | Script of a character for a given episode of a season |
-| **Retrieve sentiment analysis (SA)** |
+| **Retrieve sentiment analysis (SA)** | *** |
 | /script/sa/character/\<name> | SA of a character for the entire show |
 | /script/sa/\<season> | SA of an entire season |
 | /script/sa/\<season>/mean/character/\<name> | Mean SA of a character for the entire show | 
