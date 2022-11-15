@@ -13,6 +13,10 @@
 <br>
 
 ## 2- Structure of the API
+The Game of Thrones script dataset was obtained from [Kaggle](https://www.kaggle.com/datasets/albenft/game-of-thrones-script-all-seasons). The script was very well curated and contained just a couple of missing values. It is divided in seasons and episodes and each row represents a line sentence from a character:
+
+![script](images/Got_script.jpg)
+
 The API was built using the **Flask** library in a local route. Find below the different endpoints of the API. Each endpoint retrieved the information of a corresponding query.  
 
 **API endpoints:**
@@ -50,6 +54,16 @@ Examples of get and post request queries are shown below.
 The following query returns random sentences of your favorite Game of Thrones character.
 
 ```python
+# API endpoint
+@app.route("/random/<name>")
+def random_from_character (name):
+    if che.check_character(name):
+        sentence = jsonify(sql.get_random(name))
+        return sentence
+    else:
+        return "The specified character is not valid. Refer to our docs for the names of the characters."
+
+# SQL query function executed at the API endpoint
 def get_random (name):
     query = f"""SELECT Sentence 
     FROM got_script
@@ -71,6 +85,24 @@ It works! (Yes, I refreshed the page many times until I found it...)
 The following query inserts a new row into the script dataset.
 
 ```python
+# API endpoint
+@app.route("/insertrow", methods=["POST"])
+def insert_row ():
+    # Decoding params
+    my_params = request.args
+    id = my_params["ID"]
+    release_date = my_params["Release Date"]
+    season = my_params["Season"]
+    episode = my_params["Episode"]
+    episode_title = my_params["Episode Title"]
+    name = my_params["Name"]
+    sentence = my_params["Sentence"]
+
+    # Passing to my function: do the insert
+    sql.insert_one_row(id, release_date, season, episode, episode_title, name, sentence)
+    return f"Query succesfully inserted"
+
+# SQL query function executed at the API endpoint
 def insert_one_row (id, release_date, season, episode, episode_title, name, sentence):
     query = f"""INSERT INTO got_script
      (ID, `Release Date`, Season, Episode, `Episode Title`, Name, Sentence) 
@@ -146,7 +178,7 @@ Turns out that this episode featured one of the most brutal scenes we have seen 
 
 ### 4.6- Character evolution: Theon Greyjoy vs Ramsay Bolton
 
-Finally, this last graph shows the evolution of Theon Greyjoy's and Ramsay Bolton's language. Ramsay kidnapped and tortured Theon, which correlates with an increased negativity sentiment in the language of Theon. Interestingly enough, after Ramsay's death and subsequent liberation of Theon, Theon's language evolves towards a more neutral side (*Dobby is free!*). 
+Finally, this last graph shows the evolution of Theon Greyjoy's and Ramsay Bolton's language. Ramsay kidnapped and tortured Theon, which correlates with an increased negativity sentiment in the language of Theon (season 3). Interestingly enough, after Ramsay's death and subsequent liberation of Theon in season 6, Theon's language evolves towards neutrality (*Dobby is free!*). 
 
 ![ramsay_theon](images/ramsay_theon.jpg)
 
