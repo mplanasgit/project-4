@@ -1,7 +1,8 @@
 **Ironhack Project-4**
 
 ---
-# Analysis of the Game of Thrones natural language using a local API
+# Set Theon Free
+## An analysis of the Game of Thrones language using a local API
 
 ---
 
@@ -200,7 +201,7 @@ A word cloud of these characters for the entire show is shown below:
 
 ### 4.5- Analysis of the most negative episodes
 
-Next, the most *negative* episodes -in terms of language/script- were identified and their sentiment `compound` was plotted over the duration of the episode.
+Next, the two most *negative* episodes -in terms of language/script- were identified and their sentiment `compound` was plotted over the duration of the episode. The most negative episode was The Dragon and the Wolf:
 
 ![sentiment7x07](src/tools/output/episode7x07.jpg)
 
@@ -218,7 +219,7 @@ Turns out that this episode featured one of the most brutal scenes we have seen 
 
 ### 4.6- Character evolution: Theon Greyjoy vs Ramsay Bolton
 
-Finally, this last graph shows the evolution of Theon Greyjoy's and Ramsay Bolton's language. Ramsay kidnapped and tortured Theon, which correlates with an increased negativity sentiment in the language of Theon (season 3). Interestingly enough, after Ramsay's death and subsequent liberation of Theon in season 6, Theon's language evolves towards neutrality (*Dobby is free!*). 
+Finally, this last graph shows the evolution of Theon Greyjoy's and Ramsay Bolton's language. Ramsay kidnapped and tortured Theon, which correlates with an increased negativity sentiment in the language of Theon (from season 3). Interestingly enough, after Ramsay's death and subsequent liberation of Theon in season 6, Theon's language evolves towards neutrality (*Dobby is free!*). 
 
 ![ramsay_theon](images/ramsay_theon.jpg)
 
